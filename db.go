@@ -2,7 +2,6 @@ package main
 
 import (
 	"encoding/json"
-	"fmt"
 	"io/ioutil"
 	"log"
 )
@@ -36,8 +35,6 @@ func GetEntries(tags []string) (entries []Article) {
 }
 
 func readDb(path string) interface{} {
-	fmt.Println(path)
-
 	data, err := ioutil.ReadFile(path)
 	if err != nil {
 		log.Printf("Opening db failed with error: %s", err)

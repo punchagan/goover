@@ -17,6 +17,7 @@ func main() {
 
 	router := mux.NewRouter().StrictSlash(true)
 	router.HandleFunc("/view", ArticleIndex)
+	router.HandleFunc("/random", RandomArticle)
 
 	log.Fatal(http.ListenAndServe(":8080", router))
 }
