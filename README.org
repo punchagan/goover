@@ -15,3 +15,5 @@ Goover is written in Go lang and licensed under GPL v3.
 | ~/view/~      | GET         | ~{tags:<list>(optional)}~                           | ~{entries: [<entry>, ...]}~ | ~!<tag>~ can be used for negation; all entries are returned if no tags |
 | ~/random/~    | GET         | ~{tags:<list>(optional)}~                           | ~{entries: [<entry>]}~      |                                                                        |
 | ~/delete/~    | DELETE      | ~{url:<string>}~                                    | ~{success: <bool>}~         |                                                                        |
+
+FIXME: add pagination. Otherwise lots of shit!!!1
