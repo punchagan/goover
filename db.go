@@ -8,7 +8,7 @@ import (
 )
 
 func GetEntries(tags []string) (entries []Article) {
-	data := readDb()
+	data := readDb(DB_PATH)
 
 	if data == nil {
 		return nil
@@ -35,8 +35,7 @@ func GetEntries(tags []string) (entries []Article) {
 	return entries
 }
 
-func readDb() interface{} {
-	path := "/tmp/digest.json"
+func readDb(path string) interface{} {
 	fmt.Println(path)
 
 	data, err := ioutil.ReadFile(path)
