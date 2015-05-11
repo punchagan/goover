@@ -1,0 +1,15 @@
+#+STARTUP: indent showeverything
+* goover -- A web based reading queue
+
+Goover is a simple webserver/API for managing a reading queue of articles that
+I want to go over later.
+
+Goover is written in Go lang and licensed under GPL v3.
+
+** API
+
+| API end-point | HTTP Method | Parameters                         | Response               | Comments                                                               |
+|---------------+-------------+------------------------------------+------------------------+------------------------------------------------------------------------|
+| ~/add/~       | POST        | ~{url:<string>, content:<string>}~ | ~{success: <bool>}~    | #fixme: additionally allow setting tags                                |
+| ~/view/~      | GET         | ~{tags:<list>(optional)}~          | ~{entries: [<entry>]}~ | ~!<tag>~ can be used for negation; all entries are returned if no tags |
+| ~/delete/~    | DELETE      | ~{url:<string>}~                   | ~{success: <bool>}~    |                                                                        |
