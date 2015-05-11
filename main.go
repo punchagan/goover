@@ -16,6 +16,12 @@ func main() {
 	flag.Parse()
 
 	router := mux.NewRouter().StrictSlash(true)
+
+	// Web methods
+	router.HandleFunc("/", Index)
+	router.HandleFunc("/static/{filename}", StaticHandler)
+
+	// API methods
 	router.HandleFunc("/view", ArticleIndex)
 	router.HandleFunc("/random", RandomArticle)
 

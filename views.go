@@ -2,11 +2,43 @@ package main
 
 import (
 	"encoding/json"
+	"fmt"
+	"io/ioutil"
 	"math/rand"
+	"mime"
 	"net/http"
 	"strings"
 	"time"
+	"path"
+
+	"github.com/gorilla/mux"
 )
+
+func Index(w http.ResponseWriter, r *http.Request) {
+	data, err := ioutil.ReadFile("templates/index.html")
+	if err != nil {
+		fmt.Fprintln(w, err)
+	} else {
+		fmt.Fprintln(w, string(data))
+	}
+}
+
+func StaticHandler(w http.ResponseWriter, r *http.Request) {
+	vars := mux.Vars(r)
+	filename := vars["filename"]
+
+	data, err := ioutil.ReadFile("static/" + filename)
+	if err != nil {
+		w.Header().Set("Content-Type", "text/plain; charset=UTF-8")
+		w.WriteHeader(http.StatusNotFound)
+		fmt.Fprintln(w, err)
+	} else {
+		mime_type := mime.TypeByExtension(path.Ext(filename))
+		w.Header().Set("Content-Type", mime_type + "; charset=UTF-8")
+		w.WriteHeader(http.StatusOK)
+		fmt.Fprintln(w, string(data))
+	}
+}
 
 func ArticleIndex(w http.ResponseWriter, r *http.Request) {
 	tags, err := parseTags(w, r)
