@@ -7,9 +7,9 @@ import (
 	"math/rand"
 	"mime"
 	"net/http"
+	"path"
 	"strings"
 	"time"
-	"path"
 
 	"github.com/gorilla/mux"
 )
@@ -34,7 +34,7 @@ func StaticHandler(w http.ResponseWriter, r *http.Request) {
 		fmt.Fprintln(w, err)
 	} else {
 		mime_type := mime.TypeByExtension(path.Ext(filename))
-		w.Header().Set("Content-Type", mime_type + "; charset=UTF-8")
+		w.Header().Set("Content-Type", mime_type+"; charset=UTF-8")
 		w.WriteHeader(http.StatusOK)
 		fmt.Fprintln(w, string(data))
 	}
