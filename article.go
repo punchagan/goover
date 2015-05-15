@@ -67,7 +67,7 @@ func (articles Articles) Len() int {
 }
 
 func (articles Articles) Less(i, j int) bool {
-	return time.Time(articles[i].Published).Before(time.Time(articles[j].Published))
+	return time.Time(articles[i].Added).Before(time.Time(articles[j].Added))
 }
 
 func (articles Articles) Swap(i, j int) {
