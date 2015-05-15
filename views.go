@@ -69,6 +69,38 @@ func RandomArticle(w http.ResponseWriter, r *http.Request) {
 	}
 }
 
+func AddArticle(w http.ResponseWriter, r *http.Request) {
+	err := r.ParseForm()
+	if err != nil {
+		response := map[string]error{"error": err}
+		sendJSONResponse(w, response, http.StatusBadRequest)
+		return
+	}
+	urls, url_ok := r.Form["url"]
+	titles, title_ok := r.Form["title"]
+	if !(url_ok && title_ok) {
+		response := map[string]string{"error": "Missing parameter"}
+		sendJSONResponse(w, response, http.StatusBadRequest)
+		return
+	}
+	url := urls[0]
+	title := titles[0]
+	article := Article{
+		Url:   url,
+		Title: title,
+		Added: CustomTime(time.Now()),
+	}
+
+	err = AddEntry(article)
+	if err != nil {
+		response := map[string]error{"error": err}
+		sendJSONResponse(w, response, http.StatusNotFound)
+	} else {
+		response := map[string]bool{"success": true}
+		sendJSONResponse(w, response, http.StatusNotFound)
+	}
+}
+
 func sendJSONResponse(w http.ResponseWriter, response interface{}, status int) {
 	w.Header().Set("Content-Type", "application/json; charset=UTF-8")
 	w.WriteHeader(status)

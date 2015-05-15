@@ -2,6 +2,7 @@ package main
 
 import (
 	"encoding/json"
+	"errors"
 	"io/ioutil"
 	"log"
 )
@@ -32,6 +33,21 @@ func GetEntries(tags []string) (entries Articles) {
 		}
 	}
 	return entries
+}
+
+func AddEntry(article Article) (err error) {
+	// FIXME: DB needs to be locked.
+	data := readDb(DB_PATH)
+	if data != nil {
+		D := data.(map[string]interface{})
+		D[article.Url] = article
+		var json_data []byte
+		json_data, err = json.Marshal(D)
+		ioutil.WriteFile(DB_PATH, json_data, 0755)
+	} else {
+		err = errors.New("could not add article.")
+	}
+	return err
 }
 
 func readDb(path string) interface{} {

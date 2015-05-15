@@ -39,7 +39,7 @@ var Article = React.createClass({
         if (!article.title) {
             return (<div className="garticle"></div>);
         }
-        var tagNodes = article.tags.map(function(tag){
+        var tagNodes = (article.tags?article.tags:[]).map(function(tag){
             return(
                     <span key={tag}>{tag} | </span>
             );

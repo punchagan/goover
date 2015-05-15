@@ -24,6 +24,7 @@ func main() {
 	// API methods
 	router.HandleFunc("/view", ArticleIndex)
 	router.HandleFunc("/random", RandomArticle)
+	router.HandleFunc("/add", AddArticle)
 
 	log.Fatal(http.ListenAndServe(":8080", router))
 }
