@@ -6,7 +6,7 @@ import (
 	"log"
 )
 
-func GetEntries(tags []string) (entries []Article) {
+func GetEntries(tags []string) (entries Articles) {
 	data := readDb(DB_PATH)
 
 	if data == nil {

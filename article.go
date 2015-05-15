@@ -38,8 +38,6 @@ type Article struct {
 	Tags      []string   `json:"tags"`
 }
 
-type Articles []Article
-
 func (article Article) hasTag(tag string) bool {
 	// Convert list of tags to map for fast lookup
 	atags := make(map[string]bool)
@@ -59,4 +57,20 @@ func (article Article) HasTags(tags []string) bool {
 		}
 	}
 	return true
+}
+
+// Articles List
+
+type Articles []Article
+
+func (articles Articles) Len() int {
+	return len(articles)
+}
+
+func (articles Articles) Less(i, j int) bool {
+	return time.Time(articles[i].Published).Before(time.Time(articles[j].Published))
+}
+
+func (articles Articles) Swap(i, j int) {
+	articles[i], articles[j] = articles[j], articles[i]
 }

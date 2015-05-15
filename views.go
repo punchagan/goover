@@ -8,6 +8,7 @@ import (
 	"mime"
 	"net/http"
 	"path"
+	"sort"
 	"strings"
 	"time"
 
@@ -47,6 +48,7 @@ func ArticleIndex(w http.ResponseWriter, r *http.Request) {
 		sendJSONResponse(w, response, http.StatusBadRequest)
 	}
 	entries := GetEntries(tags)
+	sort.Sort(sort.Reverse(entries))
 	sendJSONResponse(w, entries, http.StatusOK)
 
 }
@@ -89,7 +91,7 @@ func parseTags(w http.ResponseWriter, r *http.Request) (tags []string, err error
 	return tags, nil
 }
 
-func randomEntry(entries []Article) Article {
+func randomEntry(entries Articles) Article {
 	rand.Seed(time.Now().Unix())
 	return entries[rand.Intn(len(entries))]
 }
