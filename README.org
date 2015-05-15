@@ -16,4 +16,4 @@ Goover is written in Go lang and licensed under GPL v3.
 | ~/random/~    | GET         | ~{tags:<list>(optional)}~                           | ~{entries: [<entry>]}~      |                                                                        |
 | ~/delete/~    | DELETE      | ~{url:<string>}~                                    | ~{success: <bool>}~         |                                                                        |
 
-FIXME: add pagination. Otherwise lots of shit!!!1
+# FIXME: add pagination. Otherwise tons of stuff!!!1
