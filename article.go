@@ -1,12 +1,17 @@
 package main
 
 import (
+	"encoding/json"
 	"time"
 )
 
 type CustomTime time.Time
 
 const TIME_FORMAT = "2006-01-02T15:04:05-0700"
+
+func (ct CustomTime) MarshalJSON() ([]byte, error) {
+	return json.Marshal(time.Time(ct))
+}
 
 func (ct *CustomTime) UnmarshalJSON(b []byte) (err error) {
 	b = b[1 : len(b)-1]
