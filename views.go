@@ -78,6 +78,9 @@ func AddArticle(w http.ResponseWriter, r *http.Request) {
 	}
 	urls, url_ok := r.Form["url"]
 	titles, title_ok := r.Form["title"]
+	contents, _ := r.Form["content"]
+	tags, _ := parseTags(w, r)
+	// FIXME: Why don't we allow setting other fields?
 	if !(url_ok && title_ok) {
 		response := map[string]string{"error": "Missing parameter"}
 		sendJSONResponse(w, response, http.StatusBadRequest)
@@ -85,10 +88,18 @@ func AddArticle(w http.ResponseWriter, r *http.Request) {
 	}
 	url := urls[0]
 	title := titles[0]
+	var content string
+	if len(contents) == 0 {
+		content = ""
+	} else {
+		content = contents[0]
+	}
 	article := Article{
-		Url:   url,
-		Title: title,
-		Added: CustomTime(time.Now()),
+		Url:     url,
+		Title:   title,
+		Content: content,
+		Tags:    tags,
+		Added:   CustomTime(time.Now()),
 	}
 
 	err = AddEntry(article)
