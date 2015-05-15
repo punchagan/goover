@@ -80,10 +80,12 @@ func parseTags(w http.ResponseWriter, r *http.Request) (tags []string, err error
 	if err != nil {
 		return nil, err
 	}
+
 	tags, ok := r.Form["tags"]
 	if ok {
-		tags = strings.Split(tags[0], ",")
+		tags = strings.Split(strings.Trim(tags[0], ", "), ",")
 	}
+
 	return tags, nil
 }
 
