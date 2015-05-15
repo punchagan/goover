@@ -25,11 +25,19 @@ var RandomButton = React.createClass({
     }
 })
 
+var SearchArticlesButton = React.createClass({
+    render: function() {
+        return (
+                <button onClick={this.props.onClick}>List Articles!</button>
+        );
+    }
+})
+
 var Article = React.createClass({
     render: function() {
         var article = this.props.article;
         if (!article.title) {
-            return (<div className="garticle">no article!</div>);
+            return (<div className="garticle"></div>);
         }
         var tagNodes = article.tags.map(function(tag){
             return(
@@ -53,12 +61,39 @@ var Article = React.createClass({
 })
 
 
+var ArticleList = React.createClass({
+    render: function() {
+        var articles = this.props.articles;
+        if (articles.length == 0) {
+            return (<div className="garticle-list"></div>);
+        }
+        var articleNodes = articles.map(function(article){
+            return(
+                    <div className="garticle-metadata" id={article.url}>
+                    <span className="garticle-title"> {article.title} </span>
+                    <span className="garticle-author"> {article.author} </span>
+                    <span className="garticle-blog"> {article.blog} </span>
+                    <span className="article-date"> <a href={article.url}> {article.date_published} </a> </span>
+                    </div>
+            );
+        });
+
+        return (
+                <div className="garticle-list">
+                {articleNodes}
+                </div>
+        );
+    }
+})
+
+
 var GooverApp = React.createClass({
     getInitialState: function(){
         return (
             {
                 article: {},
-                tags: "!read"
+                tags: "!read",
+                articleList: []
             }
         );
     },
@@ -69,20 +104,34 @@ var GooverApp = React.createClass({
         var self = this;
         var fetch = $.get("/random?tags=" + this.state.tags)
             .done(function (article) {
-                console.log(article);
-                self.setState({article: article});
+                self.setState({article: article, articleList: []});
             })
             .error(function (data, response) {
-                self.setState({article: {title: "No article found", tags:self.state.tags.split(',')}});
+                self.setState({article: {}, articles:[]});
             })
 
+    },
+    listArticles: function(){
+        var self = this;
+        var fetch = $.get("/view?tags=" + this.state.tags)
+            .done(function (data) {
+                console.log(data);
+                if (data) {
+                    self.setState({articleList: data, article: {}});
+                }
+            })
+            .error(function (data, response) {
+                self.setState({article: {}, articles:[]});
+            })
     },
     render: function() {
         return (
                 <div className="gooverapp">
                 <TagEditor tags={this.state.tags} onUserInput={this.updateTags}/>
                 <RandomButton onClick={this.fetchArticle} />
+                <SearchArticlesButton onClick={this.listArticles}/>
                 <Article article={this.state.article} />
+                <ArticleList articles={this.state.articleList} />
                 </div>
         );
     }
