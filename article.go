@@ -1,7 +1,6 @@
 package main
 
 import (
-	"encoding/json"
 	"time"
 )
 
@@ -10,7 +9,7 @@ type CustomTime time.Time
 const TIME_FORMAT = "2006-01-02T15:04:05-0700"
 
 func (ct CustomTime) MarshalJSON() ([]byte, error) {
-	return json.Marshal(time.Time(ct))
+	return []byte("\""+ct.String()+"\""), nil
 }
 
 func (ct *CustomTime) UnmarshalJSON(b []byte) (err error) {
@@ -24,7 +23,7 @@ func (ct *CustomTime) UnmarshalJSON(b []byte) (err error) {
 }
 
 func (ct CustomTime) String() (s string) {
-	return time.Time(ct).String()
+	return time.Time(ct).Format(TIME_FORMAT)
 }
 
 type Article struct {
