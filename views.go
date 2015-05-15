@@ -57,8 +57,14 @@ func RandomArticle(w http.ResponseWriter, r *http.Request) {
 		response := map[string]error{"error": err}
 		sendJSONResponse(w, response, http.StatusBadRequest)
 	}
-	entry := randomEntry(GetEntries(tags))
-	sendJSONResponse(w, entry, http.StatusOK)
+
+	entries := GetEntries(tags)
+	if len(entries) == 0 {
+		sendJSONResponse(w, nil, http.StatusNotFound)
+	} else {
+		entry := randomEntry(entries)
+		sendJSONResponse(w, entry, http.StatusOK)
+	}
 }
 
 func sendJSONResponse(w http.ResponseWriter, response interface{}, status int) {
