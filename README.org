@@ -11,7 +11,7 @@ Goover is written in Go lang and licensed under GPL v3.
 | API end-point | HTTP Method | Parameters                                                           | Response                    | Comments                                                               |
 |---------------+-------------+----------------------------------------------------------------------+-----------------------------+------------------------------------------------------------------------|
 | ~/add/~       | GET or POST | ~{url:<string>, title: <string>, content(optional), tags(optional)}~ | ~{success: <bool>}~         |                                                                        |
-| ~/edit/~      | GET or POST | ~{url:<string>, tags(optional)}~                                     | ~{success: <bool>}~         | ~!<tag>~ can be used to remove tags                                    |
+| ~/edit/~      | GET or POST | ~{url:<string>, tags:<list>}~                                        | ~{success: <bool>}~         | ~!<tag>~ can be used to remove tags                                    |
 | ~/view/~      | GET         | ~{tags:<list>(optional)}~                                            | ~{entries: [<entry>, ...]}~ | ~!<tag>~ can be used for negation; all entries are returned if no tags |
 | ~/random/~    | GET         | ~{tags:<list>(optional)}~                                            | ~{entries: [<entry>]}~      |                                                                        |
 | ~/delete/~    | DELETE      | ~{url:<string>}~                                                     | ~{success: <bool>}~         |                                                                        |
