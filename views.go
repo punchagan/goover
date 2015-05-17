@@ -112,6 +112,41 @@ func AddArticle(w http.ResponseWriter, r *http.Request) {
 	}
 }
 
+func EditArticle(w http.ResponseWriter, r *http.Request) {
+	err := r.ParseForm()
+	if err != nil {
+		response := map[string]error{"error": err}
+		sendJSONResponse(w, response, http.StatusBadRequest)
+		return
+	}
+	urls, url_ok := r.Form["url"]
+	tags, err := parseTags(w, r)
+	// FIXME: Why don't we allow editing other fields?
+	if !url_ok || err != nil {
+		response := map[string]string{"error": "Missing parameter"}
+		sendJSONResponse(w, response, http.StatusBadRequest)
+		return
+	}
+	url := urls[0]
+	entries := GetEntryMap()
+	article, ok := entries[url]
+	if !ok {
+		response := map[string]string{"error": "Unknown url"}
+		sendJSONResponse(w, response, http.StatusBadRequest)
+		return
+	}
+	article = article.AddRemoveTags(tags)
+	// Save the updated article to the db.
+	err = AddEntry(article) //fixme: AddEntry -> UpdateEntry
+	if err != nil {
+		response := map[string]error{"error": err}
+		sendJSONResponse(w, response, http.StatusNotFound)
+	} else {
+		response := map[string]bool{"success": true}
+		sendJSONResponse(w, response, http.StatusNotFound)
+	}
+}
+
 func sendJSONResponse(w http.ResponseWriter, response interface{}, status int) {
 	w.Header().Set("Content-Type", "application/json; charset=UTF-8")
 	w.WriteHeader(status)

@@ -9,7 +9,7 @@ type CustomTime time.Time
 const TIME_FORMAT = "2006-01-02T15:04:05-0700"
 
 func (ct CustomTime) MarshalJSON() ([]byte, error) {
-	return []byte("\""+ct.String()+"\""), nil
+	return []byte("\"" + ct.String() + "\""), nil
 }
 
 func (ct *CustomTime) UnmarshalJSON(b []byte) (err error) {
@@ -56,6 +56,38 @@ func (article Article) HasTags(tags []string) bool {
 		}
 	}
 	return true
+}
+
+func (article Article) AddRemoveTags(tags []string) Article {
+	for _, tag := range tags {
+		if tag[0] != '!' {
+			article.Tags = append(article.Tags, tag)
+		} else {
+			if article.hasTag(tag[1:]) {
+				article.Tags = RemoveTag(article.Tags, tag[1:])
+			}
+		}
+	}
+	return article
+}
+
+func RemoveTag(tags []string, tag string) []string {
+	T := make(map[string]bool)
+
+	// make a map out of the list
+	for _, t := range tags {
+		T[t] = true
+	}
+
+	delete(T, tag)
+	tags = make([]string, len(T))
+
+	for t, _ := range T {
+		tags = append(tags, t)
+	}
+
+	return tags
+
 }
 
 // Articles List

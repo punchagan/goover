@@ -35,6 +35,34 @@ func GetEntries(tags []string) (entries Articles) {
 	return entries
 }
 
+func GetEntryMap() (entries map[string]Article) {
+	data := readDb(DB_PATH)
+
+	if data == nil {
+		return nil
+	}
+
+	entries = make(map[string]Article)
+
+	for _, value := range data.(map[string]interface{}) {
+		switch value.(type) {
+
+		case map[string]interface{}:
+
+			v := value.(map[string]interface{})
+			// FIXME: marshal() -> unmarshal() to change type,
+			// kinda sucks!
+			b, _ := json.Marshal(v)
+			var article Article
+			json.Unmarshal(b, &article)
+
+			entries[article.Url] = article
+
+		}
+	}
+	return entries
+}
+
 func AddEntry(article Article) (err error) {
 	// FIXME: DB needs to be locked.
 	data := readDb(DB_PATH)
