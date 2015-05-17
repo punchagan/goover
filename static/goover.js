@@ -137,6 +137,10 @@ var GooverApp = React.createClass({
     }
 })
 
+// Implement a TagEditor that can be used both in an article and a list of
+// articles.  Currently, /edit/ end-point just allows editing the tags of one
+// article. We could have an end point that supports editing tags for multiple
+// articles (may be a different end-point.)
 
 React.render(
         <GooverApp />,
