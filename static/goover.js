@@ -104,7 +104,7 @@ var GooverApp = React.createClass({
         var self = this;
         var fetch = $.get("/random?tags=" + this.state.tags)
             .done(function (article) {
-                self.setState({article: article, articleList: []});
+                self.setState({article: article["entry"], articleList: []});
             })
             .error(function (data, response) {
                 self.setState({article: {}, articles:[]});

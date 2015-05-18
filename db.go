@@ -5,6 +5,8 @@ import (
 	"errors"
 	"io/ioutil"
 	"log"
+	"math/rand"
+	"time"
 )
 
 func GetEntries(tags []string) (entries Articles) {
@@ -27,7 +29,7 @@ func GetEntryMap() (entries map[string]Article) {
 
 	entries = make(map[string]Article)
 
-	for _, value := range data.(map[string]interface{}) {
+	for id, value := range data.(map[string]interface{}) {
 		switch value.(type) {
 
 		case map[string]interface{}:
@@ -38,8 +40,9 @@ func GetEntryMap() (entries map[string]Article) {
 			b, _ := json.Marshal(v)
 			var article Article
 			json.Unmarshal(b, &article)
+			article.Id = id
 
-			entries[article.Url] = article
+			entries[id] = article
 
 		}
 	}
@@ -51,7 +54,7 @@ func AddEntry(article Article) (err error) {
 	data := readDb(DB_PATH)
 	if data != nil {
 		D := data.(map[string]interface{})
-		D[article.Url] = article
+		D[article.Id] = article
 		var json_data []byte
 		json_data, err = json.Marshal(D)
 		ioutil.WriteFile(DB_PATH, json_data, 0755)
@@ -76,4 +79,18 @@ func readDb(path string) interface{} {
 	}
 
 	return parsed
+}
+
+func getId() string {
+	return getRandomString(20)
+}
+
+func getRandomString(n int) string {
+	choices := "0123456789abcdef"
+	rand.Seed(time.Now().Unix())
+	r := ""
+	for i := 0; i < n; i++ {
+		r = r + string(choices[rand.Intn(len(choices))])
+	}
+	return r
 }

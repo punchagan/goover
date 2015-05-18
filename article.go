@@ -27,6 +27,7 @@ func (ct CustomTime) String() (s string) {
 }
 
 type Article struct {
+	Id        string     `json:"-"`
 	Url       string     `json:"url"`
 	Title     string     `json:"title"`
 	Content   string     `json:"content"`
@@ -63,7 +64,7 @@ func (article Article) HasTags(tags []string) bool {
 
 func (article Article) AddRemoveTags(tags []string) Article {
 	for _, tag := range tags {
-		if len(tag) == 0{
+		if len(tag) == 0 {
 			continue
 		}
 		if tag[0] != '!' {

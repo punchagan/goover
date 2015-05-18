@@ -63,7 +63,10 @@ func RandomArticle(w http.ResponseWriter, r *http.Request) {
 		sendJSONResponse(w, nil, http.StatusNotFound)
 	} else {
 		entry := randomEntry(entries)
-		sendJSONResponse(w, entry, http.StatusOK)
+		data := make(map[string]interface{})
+		data["id"] = entry.Id
+		data["entry"] = entry
+		sendJSONResponse(w, data, http.StatusOK)
 	}
 }
 
@@ -93,6 +96,7 @@ func AddArticle(w http.ResponseWriter, r *http.Request) {
 		content = contents[0]
 	}
 	article := Article{
+		Id:      getId(),
 		Url:     url,
 		Title:   title,
 		Content: content,
@@ -117,18 +121,18 @@ func EditArticle(w http.ResponseWriter, r *http.Request) {
 		sendJSONResponse(w, response, http.StatusBadRequest)
 		return
 	}
-	urls, url_ok := r.Form["url"]
+	ids, id_ok := r.Form["id"]
 	tags, err := parseTags(w, r)
 	// FIXME: Why don't we allow editing other fields?
-	if !url_ok || err != nil {
+	if !id_ok || err != nil {
 		response := map[string]string{"error": "Missing parameter"}
 		sendJSONResponse(w, response, http.StatusBadRequest)
 		return
 	}
 	entries := GetEntryMap()
 
-	for _, url := range urls {
-		article, ok := entries[url]
+	for _, id := range ids {
+		article, ok := entries[id]
 		if ok {
 			article = article.AddRemoveTags(tags)
 			// Save the updated article to the db.
