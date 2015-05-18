@@ -8,28 +8,11 @@ import (
 )
 
 func GetEntries(tags []string) (entries Articles) {
-	data := readDb(DB_PATH)
+	entry_map := GetEntryMap()
 
-	if data == nil {
-		return nil
-	}
-
-	for _, value := range data.(map[string]interface{}) {
-		switch value.(type) {
-
-		case map[string]interface{}:
-
-			v := value.(map[string]interface{})
-			// FIXME: marshal() -> unmarshal() to change type,
-			// kinda sucks!
-			b, _ := json.Marshal(v)
-			var article Article
-			json.Unmarshal(b, &article)
-
-			if article.HasTags(tags) {
-				entries = append(entries, article)
-			}
-
+	for _, article := range entry_map {
+		if article.HasTags(tags) {
+			entries = append(entries, article)
 		}
 	}
 	return entries
