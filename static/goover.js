@@ -102,7 +102,7 @@ var GooverApp = React.createClass({
     },
     fetchArticle: function(){
         var self = this;
-        var fetch = $.get("/random?tags=" + this.state.tags)
+        var fetch = $.get("/random?tag=" + this.state.tags)
             .done(function (article) {
                 self.setState({article: article["entry"], articleList: []});
             })
@@ -113,7 +113,7 @@ var GooverApp = React.createClass({
     },
     listArticles: function(){
         var self = this;
-        var fetch = $.get("/view?tags=" + this.state.tags)
+        var fetch = $.get("/view?tag=" + this.state.tags)
             .done(function (data) {
                 console.log(data);
                 if (data) {
