@@ -127,17 +127,17 @@ func EditArticle(w http.ResponseWriter, r *http.Request) {
 		sendJSONResponse(w, response, http.StatusBadRequest)
 		return
 	}
-	url := urls[0]
 	entries := GetEntryMap()
-	article, ok := entries[url]
-	if !ok {
-		response := map[string]string{"error": "Unknown url"}
-		sendJSONResponse(w, response, http.StatusBadRequest)
-		return
+
+	for _, url := range urls {
+		article, ok := entries[url]
+		if ok {
+			article = article.AddRemoveTags(tags)
+			// Save the updated article to the db.
+			err = AddEntry(article) //fixme: AddEntry -> UpdateEntry
+		}
 	}
-	article = article.AddRemoveTags(tags)
-	// Save the updated article to the db.
-	err = AddEntry(article) //fixme: AddEntry -> UpdateEntry
+
 	if err != nil {
 		response := map[string]error{"error": err}
 		sendJSONResponse(w, response, http.StatusNotFound)
