@@ -116,9 +116,10 @@ var GooverApp = React.createClass({
         var fetch = $.get("/view?tag=" + this.state.tags)
             .done(function (data) {
                 console.log(data);
-                if (data) {
-                    self.setState({articleList: data, article: {}});
+                if (!data) {
+                    data = []
                 }
+                self.setState({articleList: data, article: {}});
             })
             .error(function (data, response) {
                 self.setState({article: {}, articles:[]});
