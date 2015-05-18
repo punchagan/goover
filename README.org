@@ -8,12 +8,12 @@ Goover is written in Go lang and licensed under GPL v3.
 
 ** API
 
-| API end-point | HTTP Method | Parameters                                                           | Response                    | Comments                                                               |
-|---------------+-------------+----------------------------------------------------------------------+-----------------------------+------------------------------------------------------------------------|
-| ~/add/~       | GET or POST | ~{url:<string>, title: <string>, content(optional), tags(optional)}~ | ~{success: <bool>}~         |                                                                        |
-| ~/edit/~      | GET or POST | ~{url:<string>, tags:<list>}~                                        | ~{success: <bool>}~         | ~!<tag>~ can be used to remove tags                                    |
-| ~/view/~      | GET         | ~{tags:<list>(optional)}~                                            | ~{entries: [<entry>, ...]}~ | ~!<tag>~ can be used for negation; all entries are returned if no tags |
-| ~/random/~    | GET         | ~{tags:<list>(optional)}~                                            | ~{entries: [<entry>]}~      |                                                                        |
+| API end-point | HTTP Method | Parameters                                                                 | Response                    | Comments                                                               |
+|---------------+-------------+----------------------------------------------------------------------------+-----------------------------+------------------------------------------------------------------------|
+| ~/add/~       | GET or POST | ~{url:<string>, title: <string>, content(optional), tag(multi, optional)}~ | ~{success: <bool>}~         | A request can have multiple tag parameters, e.g tag=foo&tag=bar        |
+| ~/edit/~      | GET or POST | ~{url:<string>(multi), tag:<string>(multi)}~                               | ~{success: <bool>}~         | ~!<tag>~ can be used to remove tags; multiple tag params allowed       |
+| ~/view/~      | GET         | ~{tag:<string>(multi,optional)}~                                           | ~{entries: [<entry>, ...]}~ | ~!<tag>~ can be used for negation; all entries are returned if no tags |
+| ~/random/~    | GET         | ~{tag:<string>(multi, optional)}~                                          | ~{entries: [<entry>]}~      |                                                                        |
 
 # FIXME: add pagination. Otherwise tons of stuff!!!1
 

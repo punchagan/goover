@@ -9,7 +9,6 @@ import (
 	"net/http"
 	"path"
 	"sort"
-	"strings"
 	"time"
 
 	"github.com/gorilla/mux"
@@ -59,7 +58,6 @@ func RandomArticle(w http.ResponseWriter, r *http.Request) {
 		response := map[string]error{"error": err}
 		sendJSONResponse(w, response, http.StatusBadRequest)
 	}
-
 	entries := GetEntries(tags)
 	if len(entries) == 0 {
 		sendJSONResponse(w, nil, http.StatusNotFound)
@@ -145,6 +143,7 @@ func EditArticle(w http.ResponseWriter, r *http.Request) {
 		response := map[string]bool{"success": true}
 		sendJSONResponse(w, response, http.StatusNotFound)
 	}
+
 }
 
 func sendJSONResponse(w http.ResponseWriter, response interface{}, status int) {
@@ -161,11 +160,7 @@ func parseTags(w http.ResponseWriter, r *http.Request) (tags []string, err error
 		return nil, err
 	}
 
-	tags, ok := r.Form["tags"]
-	if ok {
-		tags = strings.Split(strings.Trim(tags[0], ", "), ",")
-	}
-
+	tags, _ = r.Form["tag"]
 	return tags, nil
 }
 
