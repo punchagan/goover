@@ -48,6 +48,9 @@ func (article Article) hasTag(tag string) bool {
 
 func (article Article) HasTags(tags []string) bool {
 	for _, tag := range tags {
+		if len(tag) == 0 {
+			continue
+		}
 		if tag[0] != '!' && !article.hasTag(tag) {
 			return false
 		}
