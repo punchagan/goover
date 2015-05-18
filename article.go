@@ -63,8 +63,13 @@ func (article Article) HasTags(tags []string) bool {
 
 func (article Article) AddRemoveTags(tags []string) Article {
 	for _, tag := range tags {
+		if len(tag) == 0{
+			continue
+		}
 		if tag[0] != '!' {
-			article.Tags = append(article.Tags, tag)
+			if !article.hasTag(tag) {
+				article.Tags = append(article.Tags, tag)
+			}
 		} else {
 			if article.hasTag(tag[1:]) {
 				article.Tags = RemoveTag(article.Tags, tag[1:])
