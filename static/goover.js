@@ -69,17 +69,19 @@ var ArticleList = React.createClass({
         }
         var articleNodes = articles.map(function(article){
             return(
-                    <div className="garticle-metadata" id={article.url}>
-                    <span className="garticle-title"> {article.title} </span>
-                    <span className="garticle-author"> {article.author} </span>
-                    <span className="garticle-blog"> {article.blog} </span>
-                    <span className="article-date"> <a href={article.url}> {article.date_published} </a> </span>
+                    <article className="garticle-info" key={article.url}>
+                    <div className="garticle-metadata">
+                    <div className="garticle-blog"> {article.blog} </div>
+                    <div className="garticle-title"> {article.title} </div>
                     </div>
+                    </article>
             );
         });
 
+        var height = $(document).height() * 0.95;
+        var style =  {height: height + "px"}
         return (
-                <div className="garticle-list">
+                <div className="garticle-list" style={style}>
                 {articleNodes}
                 </div>
         );

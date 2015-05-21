@@ -1,0 +1,54 @@
+.garticle-info {
+    border-top: 1px solid #F7F7F7;
+    font-size: 0.813rem;
+    width: 100%;
+}
+
+html, body {
+    font-family: "Helvetica Neue","Helvetica","Arial",sans-serif;
+    height: 100%;
+    overflow: hidden;
+    background: none;
+    font-size: 100%;
+    line-height: 120%;
+    margin: 0;
+    padding: 0;
+    font-smoothing: antialiased;
+    -webkit-font-smoothing: antialiased;
+    text-rendering: optimizeLegibility;
+}
+
+.garticle-metadata {
+    display: table;
+    width: 100%;
+}
+
+.garticle-blog {
+    -webkit-touch-callout: none;
+    -webkit-user-select: none;
+    -khtml-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+    cursor: pointer;
+    display: table-cell;
+    padding: 0.95em 0 0.3em 20px;
+    width: 191px;
+    vertical-align: middle;
+}
+
+.garticle-title {
+    vertical-align: middle;
+    cursor: pointer;
+    display: table-cell;
+    height: 2em;
+    margin-top: .7em;
+    overflow: hidden;
+    padding-right: 20px;
+    padding-left: 20px;
+    width: auto;
+}
+
+.garticle-list {
+    overflow-y: auto;
+}
