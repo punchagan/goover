@@ -27,7 +27,7 @@ func (ct CustomTime) String() (s string) {
 }
 
 type Article struct {
-	Id        string     `json:"-"`
+	Id        string     `json:"id"`
 	Url       string     `json:"url"`
 	Title     string     `json:"title"`
 	Content   string     `json:"content"`

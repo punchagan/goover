@@ -63,10 +63,7 @@ func RandomArticle(w http.ResponseWriter, r *http.Request) {
 		sendJSONResponse(w, nil, http.StatusNotFound)
 	} else {
 		entry := randomEntry(entries)
-		data := make(map[string]interface{})
-		data["id"] = entry.Id
-		data["entry"] = entry
-		sendJSONResponse(w, data, http.StatusOK)
+		sendJSONResponse(w, entry, http.StatusOK)
 	}
 }
 

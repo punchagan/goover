@@ -57,3 +57,27 @@ html, body {
 .garticle-list {
     overflow-y: auto;
 }
+
+.garticle-timestamp {
+    cursor: pointer;
+    display: table-cell;
+    padding-right: 20px;
+    vertical-align: middle;
+    width: 120px;
+}
+
+.garticle-fuzzytime {
+    display: inline-block;
+    padding-top: 1px;
+    white-space: nowrap;
+}
+
+.garticle-fuzzytime a {
+    text-decoration: none;
+    color: #666;
+    border-bottom: 1px dotted #FFF;
+}
+
+.garticle-fuzzytime a:hover {
+    border-bottom-color: #232323;
+}

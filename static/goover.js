@@ -33,7 +33,7 @@ var SearchArticlesButton = React.createClass({
     }
 })
 
-var Article = React.createClass({
+var RandomArticle = React.createClass({
     render: function() {
         var article = this.props.article;
         if (!article.title) {
@@ -60,30 +60,62 @@ var Article = React.createClass({
     }
 })
 
+var Article = React.createClass({
+    render: function() {
+        var article = this.props.article;
+        var tags = article.tags || []
+        var read = tags.indexOf("read") > -1?"garticle-read":""
+        var class_name = "garticle-info " + read
+        var url = new URL(article.url);
+        var blog = article.blog?article.blog:url.hostname.replace(/^www./, '');
+        return (
+                <article className={class_name}>
+                <div className="garticle-metadata">
+                <div className="garticle-blog"> {blog} </div>
+                <div className="garticle-title"> {article.title} </div>
+                <div className="garticle-timestamp">
+                <time className="garticle-fuzzytime">
+                <a href={article.url}  target="_blank" onClick={this.markAsRead}>{article.date_added}</a>
+                </time>
+                </div>
+                </div>
+                </article>
+        );
+    },
+    markAsRead: function(){
+        var article = this.props.article;
+        if (!article.tags) {
+            article.tags = []
+        }
+
+        if (article.tags.indexOf("read") == -1) {
+            article.tags.push("read")
+
+            // Make the element render again!?!
+            this.setState();
+
+            // Let the server know!
+            var url = "/edit?id="+article.id+"&tag=read"
+            $.get(url)
+        }
+    }
+
+})
+
 
 var ArticleList = React.createClass({
     render: function() {
+        var self=this;
         var articles = this.props.articles;
         if (articles.length == 0) {
             return (<div className="garticle-list"></div>);
         }
         var articleNodes = articles.map(function(article){
-            var tags = article.tags || []
-            var read = tags.indexOf("read") > -1?"garticle-read":""
-            var class_name = "garticle-info " + read
-            var url = new URL(article.url);
-            var blog = article.blog?article.blog:url.hostname.replace(/^www./, '');
-            return(
-                    <article className={class_name} key={article.url}>
-                    <div className="garticle-metadata">
-                    <div className="garticle-blog"> {blog} </div>
-                    <div className="garticle-title"> {article.title} </div>
-                    </div>
-                    </article>
-            );
+            return (
+                    <Article article={article} key={article.url} />
+            )
         });
-
-        var height = $(document).height() * 0.95;
+        var height = $(document).height() - $('#goover-controls').height();
         var style =  {height: height + "px"}
         return (
                 <div className="garticle-list" style={style}>
@@ -111,7 +143,7 @@ var GooverApp = React.createClass({
         var self = this;
         var fetch = $.get("/random?tag=" + this.state.tags)
             .done(function (article) {
-                self.setState({article: article["entry"], articleList: []});
+                self.setState({article: article, articleList: []});
             })
             .error(function (data, response) {
                 self.setState({article: {}, articles:[]});
@@ -122,7 +154,6 @@ var GooverApp = React.createClass({
         var self = this;
         var fetch = $.get("/view?tag=" + this.state.tags)
             .done(function (data) {
-                console.log(data);
                 if (!data) {
                     data = []
                 }
@@ -135,10 +166,12 @@ var GooverApp = React.createClass({
     render: function() {
         return (
                 <div className="gooverapp">
+                <div id="goover-controls">
                 <TagEditor tags={this.state.tags} onUserInput={this.updateTags}/>
                 <RandomButton onClick={this.fetchArticle} />
                 <SearchArticlesButton onClick={this.listArticles}/>
-                <Article article={this.state.article} />
+                </div>
+                <RandomArticle article={this.state.article} />
                 <ArticleList articles={this.state.articleList} />
                 </div>
         );
