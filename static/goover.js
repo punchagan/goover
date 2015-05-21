@@ -68,8 +68,11 @@ var ArticleList = React.createClass({
             return (<div className="garticle-list"></div>);
         }
         var articleNodes = articles.map(function(article){
+            var tags = article.tags || []
+            var read = tags.indexOf("read") > -1?"garticle-read":""
+            var class_name = "garticle-info " + read
             return(
-                    <article className="garticle-info" key={article.url}>
+                    <article className={class_name} key={article.url}>
                     <div className="garticle-metadata">
                     <div className="garticle-blog"> {article.blog} </div>
                     <div className="garticle-title"> {article.title} </div>

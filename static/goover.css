@@ -32,7 +32,7 @@ html, body {
     user-select: none;
     cursor: pointer;
     display: table-cell;
-    padding: 0.95em 0 0.3em 20px;
+    padding: 0.95em 0 0.95em 20px;
     width: 191px;
     vertical-align: middle;
 }
@@ -47,6 +47,11 @@ html, body {
     padding-right: 20px;
     padding-left: 20px;
     width: auto;
+    font-weight: bold;
+}
+
+.garticle-read .garticle-title {
+    font-weight: normal;
 }
 
 .garticle-list {
