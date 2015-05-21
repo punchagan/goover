@@ -50,7 +50,7 @@ var RandomArticle = React.createClass({
                 <div className="garticle-metadata">
                 <span className="garticle-author"> {article.author} </span> |
                 <span className="garticle-blog"> {article.blog} </span> |
-                <span className="article-date"> <a href={article.url}> {moment(article.date_published).fromNow()} </a> </span>
+                <span className="article-date"> <a href={article.url}> {moment(article.date_added).fromNow()} </a> </span>
                 </div>
                 <div className="garticle-content" dangerouslySetInnerHTML={{__html: article.content}} />
                 <div className="garticle-tags"> {tagNodes}</div>
@@ -61,7 +61,6 @@ var RandomArticle = React.createClass({
 
 var Article = React.createClass({
     render: function() {
-        // fixme: make the use of date_published/date_added consistent!
         var article = this.props.article;
         var tags = article.tags || []
         var read = tags.indexOf("read") > -1?"garticle-read":""
