@@ -71,10 +71,12 @@ var ArticleList = React.createClass({
             var tags = article.tags || []
             var read = tags.indexOf("read") > -1?"garticle-read":""
             var class_name = "garticle-info " + read
+            var url = new URL(article.url);
+            var blog = article.blog?article.blog:url.hostname.replace(/^www./, '');
             return(
                     <article className={class_name} key={article.url}>
                     <div className="garticle-metadata">
-                    <div className="garticle-blog"> {article.blog} </div>
+                    <div className="garticle-blog"> {blog} </div>
                     <div className="garticle-title"> {article.title} </div>
                     </div>
                     </article>
