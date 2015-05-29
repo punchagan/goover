@@ -69,7 +69,7 @@ var Article = React.createClass({
         var blog = article.blog?article.blog:url.hostname.replace(/^www./, '');
         return (
                 <article className={class_name}>
-                <div className="garticle-metadata">
+                <div className="garticle-metadata" onClick={this.openArticle}>
                 <div className="garticle-blog"> {blog} </div>
                 <div className="garticle-title"> {article.title} </div>
                 <div className="garticle-timestamp">
@@ -98,8 +98,11 @@ var Article = React.createClass({
             var url = "/edit?id="+article.id+"&tag=read"
             $.get(url)
         }
+    },
+    openArticle: function(){
+        window.open(this.props.article.url);
+        this.markAsRead();
     }
-
 })
 
 
